@@ -1,16 +1,12 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from rest_framework.parsers import JSONParser
 from .models import Blog
 from .serializers import BlogSerializer
-from rest_framework import serializers, viewsets, status
+from rest_framework import status
 from rest_framework.response import Response
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # Create your views here.
+
 
 class BlogAPIView(APIView):
     def get(self, request):
@@ -27,8 +23,9 @@ class BlogAPIView(APIView):
         else:
             return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class PostView(APIView):
-    def get(self, request, id:int):
+    def get(self, request, id: int):
         try:
             post = Blog.objects.get(id=id)
             serialized = BlogSerializer(post)
@@ -36,14 +33,14 @@ class PostView(APIView):
         except Blog.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def put(self, request, id:int):
+    def put(self, request, id: int):
         try:
-            post = Blog.objects.get(id=id)
+            bpost = Blog.objects.get(id=id)
             data = request.data
         except Blog.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serialized = BlogSerializer(post, data=data)
+        serialized = BlogSerializer(bpost, data=data)
 
         if serialized.is_valid():
             serialized.save()
@@ -51,7 +48,7 @@ class PostView(APIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def delete(self, request, id:int):
+    def delete(self, request, id: int):
         try:
             bpost = Blog.objects.get(id=id)
         except Blog.DoesNotExist:

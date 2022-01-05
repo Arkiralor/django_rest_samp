@@ -11,11 +11,13 @@ from rest_framework.response import Response
 
 # Create your views here.
 
+
 @api_view(['GET'])
 def student_list(request):
     students = Student.objects.all()
     serialized = StudentSerializerRep(students, many=True)
     return Response(serialized.data)
+
 
 @api_view(['POST'])
 def add_student(request):
@@ -26,8 +28,9 @@ def add_student(request):
     else:
         return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET'])
-def get_by_id(request, id:int):
+def get_by_id(request, id: int):
     try:
         student = Student.objects.get(id=id)
         serialized = StudentSerializerRep(student)
@@ -35,15 +38,15 @@ def get_by_id(request, id:int):
     except Student.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+
 @api_view(['PUT'])
-def update_student(request, id:int):
+def update_student(request, id: int):
     try:
         student = Student.objects.get(id=id)
         data = request.data
     except Student.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    
+
     serialized = StudentSerializerInp(student, data=data)
 
     if serialized.is_valid():
@@ -52,8 +55,9 @@ def update_student(request, id:int):
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+
 @api_view(['DELETE'])
-def delete_student(request, id:int):
+def delete_student(request, id: int):
     try:
         student = Student.objects.get(id=id)
     except Student.DoesNotExist:
@@ -61,6 +65,3 @@ def delete_student(request, id:int):
     serialized = StudentSerializerRep(student)
     student.delete()
     return Response(serialized.data, status=status.HTTP_410_GONE)
-        
-    
-
