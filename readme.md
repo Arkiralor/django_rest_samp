@@ -5,6 +5,23 @@ Sample Django Restframework project for basic CRUD operations;
 a work-in-progress.
 </p>
 
+## Applications:
+
+### 1. api_basic:
+
+Basic crud operations on a table of articles.
+(Uses api_view() decorators)
+
+### 2. students:
+
+Basic crud operations on a table of students.
+(Uses api_view() decorators)
+
+### 3. blog:
+
+Basic crud operations on a table of blog-posts.
+(Uses APIView classes)
+
 ## Root Environment:
 
 1. Ubuntu
